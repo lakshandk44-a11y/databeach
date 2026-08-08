@@ -1,0 +1,4 @@
+# Data Beach - leak file 2
+# username:password format
+# john.doe:mypassword1
+# alice:Summer2024!
