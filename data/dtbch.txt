@@ -1,0 +1,4 @@
+# Data Beach - leak file 3
+# ඕනම separator එකක් auto-detect වෙනවා (: | ; tab , space)
+# email|password
+# carol@reddit.com|redditpass1
