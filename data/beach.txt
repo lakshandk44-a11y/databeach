@@ -1,0 +1,6 @@
+# Data Beach - leak file 1
+# Format: email:password  (එක line එකකට එකක්)
+# ඕනම breach file එකකින් data copy කරලා මෙතනට දාන්න.
+# උදාහරණයක් විදිහට:
+# alice@example.com:Summer2024!
+# bob@github.com:qwerty123
