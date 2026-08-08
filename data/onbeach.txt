@@ -1,0 +1,7 @@
+# Data Beach - leak file 4
+# filename එකේ platform keyword එකක් තිබ්බොත්
+# (github, facebook, instagram, gmail, yahoo, combo ...)
+# ඒ platform එකටම ඔක්කොම check වෙනවා.
+# github_leak_2024.txt වගේ නමක් දාන්න නම්:
+# user1:pass1
+# user2:pass2
